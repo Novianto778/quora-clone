@@ -9,7 +9,20 @@ module.exports = {
         './src/**/*.{js,ts,jsx,tsx}',
     ],
     theme: {
-        extend: {},
+        extend: {
+            backgroundImage: (theme) => ({
+                login: "url('../assets/images/quora-bg.webp')",
+            }),
+            fontSize: {
+                13: '13px',
+                15: '15px',
+            },
+            colors: {
+                gray: {
+                    light: '#939598',
+                },
+            },
+        },
     },
     plugins: [],
 };

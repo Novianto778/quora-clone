@@ -6,6 +6,7 @@ import {
 } from '@tanstack/react-query';
 import type { AppProps } from 'next/app';
 import { useState } from 'react';
+import Head from 'next/head';
 
 export default function App({ Component, pageProps }: AppProps) {
     // This ensures that data is not shared
@@ -21,10 +22,15 @@ export default function App({ Component, pageProps }: AppProps) {
             })
     );
     return (
-        <QueryClientProvider client={queryClient}>
-            <Hydrate state={pageProps.dehydratedState}>
-                <Component {...pageProps} />
-            </Hydrate>
-        </QueryClientProvider>
+        <>
+            <Head>
+                <link rel="icon" href="/image/favicon.ico" />
+            </Head>
+            <QueryClientProvider client={queryClient}>
+                <Hydrate state={pageProps.dehydratedState}>
+                    <Component {...pageProps} />
+                </Hydrate>
+            </QueryClientProvider>
+        </>
     );
 }
