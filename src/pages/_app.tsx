@@ -7,6 +7,9 @@ import {
 import type { AppProps } from 'next/app';
 import { useState } from 'react';
 import Head from 'next/head';
+import { SessionProvider } from 'next-auth/react';
+import { Toaster } from 'react-hot-toast';
+import Navbar from '@/layout/Navbar/Navbar';
 
 export default function App({ Component, pageProps }: AppProps) {
     // This ensures that data is not shared
@@ -26,11 +29,15 @@ export default function App({ Component, pageProps }: AppProps) {
             <Head>
                 <link rel="icon" href="/image/favicon.ico" />
             </Head>
-            <QueryClientProvider client={queryClient}>
-                <Hydrate state={pageProps.dehydratedState}>
-                    <Component {...pageProps} />
-                </Hydrate>
-            </QueryClientProvider>
+            <Toaster />
+            <SessionProvider session={pageProps.session}>
+                <QueryClientProvider client={queryClient}>
+                    <Hydrate state={pageProps.dehydratedState}>
+                        <Navbar />
+                        <Component {...pageProps} />
+                    </Hydrate>
+                </QueryClientProvider>
+            </SessionProvider>
         </>
     );
 }

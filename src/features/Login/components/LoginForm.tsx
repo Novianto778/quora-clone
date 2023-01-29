@@ -6,21 +6,55 @@ import TextField from '@/shared/components/TextField';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema, LoginType } from '../typings';
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/router';
+import axios, { AxiosError } from 'axios';
+import { toast } from 'react-hot-toast';
 
 type Props = {};
 
 const LoginForm = (props: Props) => {
+    const router = useRouter();
     const {
         register,
         handleSubmit,
-        formState: { errors },
-    } = useForm({
+        formState: { errors, isDirty },
+    } = useForm<LoginType>({
         resolver: zodResolver(loginSchema),
     });
-    console.log(errors);
 
-    const onSubmit = (data: LoginType) => {
-        console.log(data);
+    const onSubmit = async (formData: LoginType) => {
+        // const config = {
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //     },
+        // };
+
+        // try {
+        //     const { data } = await axios.post(
+        //         `/api/auth/register`,
+        //         { email: formData.email, password: formData.password },
+        //         config
+        //     );
+
+        //     toast.success(data?.message);
+        // } catch (error) {
+        //     if (axios.isAxiosError(error)) {
+        //         toast.error(error?.response?.data.message);
+        //     }
+        // }
+        const res = await signIn('credentials', {
+            email: formData.email,
+            password: formData.password,
+            redirect: false,
+            callbackUrl: '/',
+        });
+
+        console.log(res);
+
+        if (res?.ok) {
+            router.push('/');
+        }
     };
     return (
         <div className="flex items-center">
@@ -37,6 +71,9 @@ const LoginForm = (props: Props) => {
                         <Button
                             variant="outlined"
                             className="flex w-full items-center space-x-4"
+                            onClick={() =>
+                                signIn('google', { callbackUrl: '/' })
+                            }
                         >
                             <FcGoogle size={24} />
                             <span>Lanjutkan dengan Google</span>
@@ -103,6 +140,7 @@ const LoginForm = (props: Props) => {
                             variant="primary"
                             className="rounded-full px-5 py-1.5 text-15"
                             type="submit"
+                            disabled={!isDirty}
                         >
                             Masuk
                         </Button>

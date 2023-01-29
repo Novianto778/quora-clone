@@ -1,6 +1,13 @@
 import Head from 'next/head';
+import { getSession, signOut, useSession } from 'next-auth/react';
+import { GetServerSideProps } from 'next';
 
 export default function Home() {
+    const { data: session, status } = useSession();
+    console.log(session);
+
+    // if (!session) return null;
+
     return (
         <>
             <Head>
@@ -12,9 +19,35 @@ export default function Home() {
                 />
                 {/* <link rel="icon" href="/image/favicon.ico" /> */}
             </Head>
-            <main>
+            <main className="h-screen bg-gray-100">
                 <h1 className="text-xl text-red-500">test</h1>
+                <button
+                    onClick={() =>
+                        signOut({
+                            callbackUrl: '/login',
+                        })
+                    }
+                >
+                    Sign Out
+                </button>
             </main>
         </>
     );
 }
+
+// export const getServerSideProps: GetServerSideProps = async (context) => {
+//     const session = await getSession(context);
+
+//     if (!session) {
+//         return {
+//             redirect: {
+//                 destination: '/login',
+//                 permanent: false,
+//             },
+//         };
+//     }
+
+//     return {
+//         props: { session },
+//     };
+// };

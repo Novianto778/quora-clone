@@ -21,6 +21,9 @@ module.exports = {
                 gray: {
                     light: '#939598',
                 },
+                quora: {
+                    primary: 'rgb(185, 43, 39)',
+                },
             },
         },
     },

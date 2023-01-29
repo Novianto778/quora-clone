@@ -5,10 +5,18 @@ import Logo from '@/assets/images/quora-logo.png';
 import LoginForm from '@/features/Login/components/LoginForm';
 import { footerLinks } from '@/features/Login/footerLinks';
 import Link from 'next/link';
+import { getSession, useSession } from 'next-auth/react';
+import { GetServerSideProps } from 'next';
 
 type Props = {};
 
 const LoginPage = (props: Props) => {
+    const { data: session } = useSession();
+
+    if (session) {
+        return null;
+    }
+
     return (
         <>
             <Head>
@@ -66,3 +74,20 @@ const LoginPage = (props: Props) => {
 };
 
 export default LoginPage;
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    const session = await getSession(context);
+
+    if (session) {
+        return {
+            redirect: {
+                destination: '/',
+                permanent: false,
+            },
+        };
+    }
+
+    return {
+        props: {},
+    };
+};
