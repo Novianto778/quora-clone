@@ -35,11 +35,11 @@ const Button = (props: Props) => {
     }
 
     if (variant === 'link') {
-        basicStyle += 'text-gray-light text-13 hover:underline';
+        basicStyle += 'text-gray-dark text-13 hover:underline';
     }
 
     if (size === 'sm') {
-        basicStyle += ' text-sm px-2 py-1.5';
+        basicStyle += ' text-13 px-2 py-1.5';
     }
 
     if (size === 'base') {

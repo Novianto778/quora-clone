@@ -10,6 +10,12 @@ import Head from 'next/head';
 import { SessionProvider } from 'next-auth/react';
 import { Toaster } from 'react-hot-toast';
 import Navbar from '@/layout/Navbar/Navbar';
+import { Open_Sans } from '@next/font/google';
+
+const open_sans = Open_Sans({
+    subsets: ['latin'],
+    weight: ['400', '500', '700'],
+});
 
 export default function App({ Component, pageProps }: AppProps) {
     // This ensures that data is not shared
@@ -33,8 +39,12 @@ export default function App({ Component, pageProps }: AppProps) {
             <SessionProvider session={pageProps.session}>
                 <QueryClientProvider client={queryClient}>
                     <Hydrate state={pageProps.dehydratedState}>
-                        <Navbar />
-                        <Component {...pageProps} />
+                        <div className={open_sans.className}>
+                            <Navbar />
+                            <div className="bg-gray-100 pt-20">
+                                <Component {...pageProps} />
+                            </div>
+                        </div>
                     </Hydrate>
                 </QueryClientProvider>
             </SessionProvider>

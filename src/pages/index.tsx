@@ -1,6 +1,11 @@
 import Head from 'next/head';
 import { getSession, signOut, useSession } from 'next-auth/react';
 import { GetServerSideProps } from 'next';
+import PageContent from '@/layout/PageContent/PageContent';
+import RuangSidebar from '@/features/ruang/RuangSidebar';
+import PostInput from '@/features/posts/PostInput';
+import PostCard from '@/features/posts/PostCard/PostCard';
+import { apiBaseUrl } from 'next-auth/client/_utils';
 
 export default function Home() {
     const { data: session, status } = useSession();
@@ -19,17 +24,19 @@ export default function Home() {
                 />
                 {/* <link rel="icon" href="/image/favicon.ico" /> */}
             </Head>
-            <main className="h-screen bg-gray-100">
-                <h1 className="text-xl text-red-500">test</h1>
-                <button
-                    onClick={() =>
-                        signOut({
-                            callbackUrl: '/login',
-                        })
-                    }
-                >
-                    Sign Out
-                </button>
+            <main className="h-[200vh]">
+                <div className="h-full">
+                    <PageContent layoutType="leftmainright">
+                        <RuangSidebar />
+                        <div className="flex flex-col gap-y-4">
+                            <PostInput />
+                            <div className="w-full">
+                                <PostCard />
+                            </div>
+                        </div>
+                        <></>
+                    </PageContent>
+                </div>
             </main>
         </>
     );

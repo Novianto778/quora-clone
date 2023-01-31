@@ -59,7 +59,7 @@ const LoginForm = (props: Props) => {
     return (
         <div className="flex items-center">
             <div className="w-1/2 border-r px-6">
-                <p className="font-13 text-sm leading-4 text-gray-light">
+                <p className="font-13 text-sm leading-4 text-gray-dark">
                     Dengan melanjutkan, Anda menunjukkan bahwa Anda menyetujui
                     Persyaratan Layanan dan Kebijakan Privasi Quora.
                 </p>
